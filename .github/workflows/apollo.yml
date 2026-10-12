@@ -32,6 +32,16 @@ jobs:
 
       - name: Compare every bumped release against the published record
         run: |
+          set +e
           node .github/apollo/cli.cjs upgrade \
             --against "origin/${{ github.base_ref }}" \
-            --index https://apollo-watch.vercel.app/index.json
+            --index https://apollo-watch.vercel.app/index.json > apollo.txt 2>&1
+          status=$?
+          cat apollo.txt
+          # The verdict where anyone can read it, signed in or not: the run's summary page, and one
+          # annotation per release the rules flag.
+          { echo '### Apollo: what these upgrades change'; echo; echo '```'; cat apollo.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          grep -E '^ +(alarming|notable) ' apollo.txt | while read -r sev pkg from arrow to why; do
+            echo "::error title=Apollo: ${pkg} ${from} → ${to} is ${sev}::${why}"
+          done
+          exit $status
