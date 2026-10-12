@@ -1,0 +1,37 @@
+# Apollo on every pull request that changes package-lock.json.
+#
+# It reads the lockfile at the pull request's head and at its base, and for every version the pull
+# request bumps it asks Apollo's published record whether that exact release pair was watched, old
+# against new, and what changed. It installs nothing and runs nobody's code.
+#
+# A release the rules call notable or alarming fails the check. A bump nobody has compared is named
+# and passes — unknown is never a failure.
+
+name: Apollo
+
+on:
+  pull_request:
+    paths: ['**/package-lock.json']
+
+permissions:
+  contents: read
+
+jobs:
+  behaviour:
+    name: What these upgrades change
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Compare every bumped release against the published record
+        run: |
+          node .github/apollo/cli.cjs upgrade \
+            --against "origin/${{ github.base_ref }}" \
+            --index https://apollo-watch.vercel.app/index.json
