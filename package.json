@@ -4,6 +4,6 @@
   "private": true,
   "description": "A tiny project whose only job is to show Apollo's behavioural check on a real pull request.",
   "dependencies": {
-    "source-map-js": "1.2.1"
+    "source-map-js": "1.2.2"
   }
 }
