@@ -11,5 +11,5 @@ pull request changes. It installs nothing and runs nobody's code; it reads what 
 "Alarming" means *read this before merging*, never *malicious*.
 
 `.github/apollo/cli.cjs` is the Apollo CLI bundled into one file from
-[github.com/vidigoat/apollo](https://github.com/vidigoat/apollo), so this runs while that repository
-is private. MIT.
+[github.com/vidigoat/apollo](https://github.com/vidigoat/apollo), so the check needs nothing but
+Node. MIT.
