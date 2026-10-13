@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Apollo CLI, bundled from github.com/vidigoat/apollo (b0c4e38) so this demo runs while that repository is private. MIT. */
+/* Apollo CLI, bundled from github.com/vidigoat/apollo (b0c4e38). MIT. */
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __commonJS = (cb, mod) => function __require() {
   try {
